@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import MedControl from '../pages/MedControl/MedControl-index'
-import Entrar from '../pages/Entrar/Entrar-index'
-import Cadastro from '../pages/Cadastro/cadastro-index'
+import Entrar from '../pages/Entrar2/Entrar-index'
+import Cadastro from '../pages/Cadastro2/cadastro-index'
 import UsuarioSecundario from '../pages/UsuarioSecundario/UsuarioSec-index'
 import Perfil from '../pages/Perfil/perfil-index'
 import Home from '../pages/Home/home-index'
@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Routes() {
     return (
-        <Stack.Navigator initialRouteName="EditProfile">
+        <Stack.Navigator initialRouteName="MedControl">
             <Stack.Screen
                 name="MedControl"
                 component={MedControl}
