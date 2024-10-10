@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, ScrollView } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useNavigation } from '@react-navigation/native';
 import { Formik, ErrorMessage } from 'formik';
@@ -34,7 +34,7 @@ export default function Cadastro() {
 
     // Função para enviar os dados ao servidor
     const handleRegister = (values) => {
-        Axios.post("http://localhost:3001/Cadastro", {
+        Axios.post("https://calm-everglades-16105-75ac9d722dec.herokuapp.com/Cadastro", {
           email: values.email,
           password: values.password,
         }).then(response => {
@@ -48,85 +48,101 @@ export default function Cadastro() {
 
     return (
         <View style={styles.container}>
-            <Animatable.View animation="fadeInLeft" delay={500} style={styles.containerHeader}>
+            <Animatable.View animation="fadeInLeft" delay={500}>
                 <Text style={styles.message}>Cadastre-se</Text>
             </Animatable.View>
 
             <Animatable.View animation="fadeInUp" style={styles.containerForm}>
-                <Formik
-                    initialValues={{ email: '', password: '', confirmPassword: '' }}
-                    validationSchema={validationSchema}
-                    onSubmit={handleRegister}  // Chama a função de registro
-                >
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
-                        <>
-                            <Text style={styles.title}>E-mail:</Text>
-                            <TextInput
-                                placeholder="Digite um E-mail..."
-                                style={styles.input}
-                                onChangeText={handleChange('email')}
-                                onBlur={handleBlur('email')}
-                                value={values.email}
-                            />
-                            <Text style={styles.errorText}>
-                                <ErrorMessage name="email" />
-                            </Text>
-
-                            <Text style={styles.title}>Senha:</Text>
-                            <View style={styles.passwordContainer}>
+                <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                    <Formik
+                        initialValues={{ email: '', password: '', confirmPassword: '' }}
+                        validationSchema={validationSchema}
+                        onSubmit={handleRegister}
+                    >
+                        {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+                            <>
+                                
+                                <Text style={styles.title}>E-mail:</Text>
+                                <View style={styles.passwordContainer}>
                                 <TextInput
-                                    placeholder="Sua Senha"
+                                    placeholder="Digite um E-mail..."
                                     style={styles.input}
-                                    secureTextEntry={!showPassword}
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    value={values.password}
+                                    onChangeText={handleChange('email')}
+                                    onBlur={handleBlur('email')}
+                                    value={values.email}
                                 />
-                                <TouchableOpacity
-                                    onPress={() => setShowPassword(!showPassword)}
-                                    style={styles.eyeIcon}
-                                >
-                                    <Icon name={showPassword ? "eye" : "eye-off"} size={24} color="grey" />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.errorText}>
-                                <ErrorMessage name="password" />
-                            </Text>
+                                </View>
+                                <Text style={styles.errorText}>
+                                    <ErrorMessage name="email" />
+                                </Text>
+                                
 
-                            <Text style={styles.title}>Confirme sua senha:</Text>
-                            <View style={styles.passwordContainer}>
-                                <TextInput
-                                    placeholder="Confirmação"
-                                    style={styles.input}
-                                    secureTextEntry={!showConfirmPassword}
-                                    onChangeText={handleChange('confirmPassword')}
-                                    onBlur={handleBlur('confirmPassword')}
-                                    value={values.confirmPassword}
-                                />
-                                <TouchableOpacity
-                                    onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-                                    style={styles.eyeIcon}
-                                >
-                                    <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color="grey" />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.errorText}>
-                                <ErrorMessage name="confirmPassword" />
-                            </Text>
+                                <Text style={styles.title}>Senha:</Text>
+                                <View style={styles.passwordContainer}>
+                                    <TextInput
+                                        placeholder="Sua Senha"
+                                        style={styles.input}
+                                        secureTextEntry={!showPassword}
+                                        onChangeText={handleChange('password')}
+                                        onBlur={handleBlur('password')}
+                                        value={values.password}
+                                    />
+                                    <TouchableOpacity
+                                        onPress={() => setShowPassword(!showPassword)}
+                                        style={styles.eyeIcon}
+                                    >
+                                        <Icon name={showPassword ? "eye" : "eye-off"} size={24} color="grey" />
+                                    </TouchableOpacity>
+                                </View>
+                                <Text style={styles.errorText}>
+                                    <ErrorMessage name="password" />
+                                </Text>
 
-                            <Animatable.View style={styles.buttonContainer}>
-                                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Entrar')}>
-                                    <Text style={styles.buttontext}>Anterior</Text>
-                                </TouchableOpacity>
+                                <Text style={styles.title}>Confirme sua senha:</Text>
+                                <View style={styles.passwordContainer}>
+                                    <TextInput
+                                        placeholder="Confirmação"
+                                        style={styles.input}
+                                        secureTextEntry={!showConfirmPassword}
+                                        onChangeText={handleChange('confirmPassword')}
+                                        onBlur={handleBlur('confirmPassword')}
+                                        value={values.confirmPassword}
+                                    />
+                                    <TouchableOpacity
+                                        onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        style={styles.eyeIcon}
+                                    >
+                                        <Icon name={showConfirmPassword ? "eye" : "eye-off"} size={24} color="grey" />
+                                    </TouchableOpacity>
+                                </View>
+                                <Text style={styles.errorText}>
+                                    <ErrorMessage name="confirmPassword" />
+                                </Text>
 
-                                <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-                                    <Text style={styles.buttontext}>Próximo</Text>
-                                </TouchableOpacity>    
-                            </Animatable.View>
+                                <Animatable.View style={styles.button}>
+                                    <TouchableOpacity  onPress={() => navigation.navigate('Entrar')}>
+                                        <Text style={styles.buttontext}>Anterior</Text>
+                                    </TouchableOpacity>
 
-                        </>
-                    )}
-                </Formik>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            handleSubmit(); // Isso vai acionar a validação do Formik
+                                            if (Object.keys(errors).length > 0) {
+                                                Alert.alert(
+                                                    "Erro no cadastro",
+                                                    "Por favor, preencha todos os campos corretamente antes de continuar.",
+                                                    [{ text: "OK" }]
+                                                );
+                                            }
+                                        }}
+                                    >
+                                        <Text style={styles.buttontext}>Próximo</Text>
+                                    </TouchableOpacity>    
+                                </Animatable.View>
+                            </>
+                        )}
+                    </Formik>
+                </ScrollView>
             </Animatable.View>
         </View>
     );
@@ -137,34 +153,29 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#613CF0",
     },
-    containerHeader: {
-        flex: 1,  // Altere de 2 para 1 para aumentar a área do formulário
-    },
     message: {
-        marginTop: 50, // Ajuste a margem superior
-        marginBottom: 30, // Ajuste a margem inferior
+        marginTop: 100,
+        marginBottom: 100,
         paddingStart: "5%",
         fontSize: 28,
         fontWeight: "bold",
         color: "#fff",
     },
     containerForm: {
-        flex: 2,  // Altere de 1 para 2 para ocupar mais espaço
+        flex: 1,
         backgroundColor: "white",
-        paddingStart: "5%",
-        paddingTop: 20, // Adicione um padding no topo
-        paddingBottom: 20, // Adicione um padding na parte inferior
+        paddingStart: 20,
         borderTopLeftRadius: 25,
         borderTopRightRadius: 25,
     },
     title: {
         fontSize: 20,
-        marginTop: 20, // Ajuste a margem superior
+        marginTop: 28,
     },
     input: {
         flex: 1,
         borderBottomWidth: 1,
-        height: 50, // Aumente a altura do input
+        height: 40,
         fontSize: 16,
         marginRight: '5%',
     },
@@ -173,12 +184,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     eyeIcon: {
-        marginLeft: 10,
+        marginHorizontal: 15,
     },
     button: {
-        marginTop: 30, // Ajuste a margem superior
+        marginTop: 50,
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginRight: 15,
     },
     buttontext: {
         fontSize: 20,
@@ -186,19 +198,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#613CF0",
         paddingVertical: 15,
         paddingHorizontal: 25,
-        marginRight: '5%',
-        borderRadius: 10,
+        borderRadius: 4,
     },
     errorText: {
         color: 'red',
-        fontSize: 12,
-    },
-    buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between', // Para os botões ficarem em cada canto
-        marginTop: 30, // Margem superior para espaçar dos campos acima
-        paddingHorizontal: 20, // Espaçamento lateral
+        fontSize: 12
     }
-
-
-});
+})

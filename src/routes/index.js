@@ -13,7 +13,7 @@ const Stack = createNativeStackNavigator();
 
 export default function Routes() {
     return (
-        <Stack.Navigator initialRouteName="MedControl">
+        <Stack.Navigator initialRouteName="MedAdd">
             <Stack.Screen
                 name="MedControl"
                 component={MedControl}
@@ -49,7 +49,6 @@ export default function Routes() {
                 component={MedAdd}
                 options={{ headerShown: false, animationEnabled: true}}
             />
-            
             <Stack.Screen
                 name='Localização'
                 component={Localizacao}
